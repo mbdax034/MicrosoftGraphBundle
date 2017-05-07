@@ -1,7 +1,22 @@
 {
-        "name": "Mbdax/MicrosoftGraph",
+        "name": "Mbdax/MicrosoftGraphBundle",
+        "type": "symfony-bundle",
+    	"description": "Symfony2 bundle  for API Micrososft  ",
+    	"keywords": ["Symfony2", "security", "encoder"],
+    	"homepage": "https://github.com/mbdax034/MicrosoftGraphBundle",
+    	"license": "MIT",
+   	 "authors": [
+		{
+		    "name": "Abdellah Rabh",
+		    "email": "abderabh@gmail.com"
+		}
+	    ],
+	     "version": "0.1.0",
         "require": {
             "php": ">=5.3.0",
             "microsoft/microsoft-graph": "0.1.*"
-        }
+        },
+        "autoload": {
+        "psr-4": { "Mbdax\\MicrosoftGraph\\": "" }
+    }
 }

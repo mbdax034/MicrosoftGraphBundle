@@ -8,6 +8,6 @@
 The recommended way to install the bundle is through Composer.
 
 ```bash
-$ composer require 'Mbdax/MicrosoftGraphBundle:~1.0'
+$ composer require 'Mbdax/MicrosoftGraphBundle:0.1.0'
 ```
 
