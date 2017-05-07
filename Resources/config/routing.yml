@@ -1,0 +1,11 @@
+microsoft_graph_connect:
+    path:     /login
+    defaults: { _controller: MicrosoftGraphBundle:Default:connect }
+
+microsoft_graph_check:
+    path:     /check
+    defaults: { _controller: MicrosoftGraphBundle:Default:connectCheck }
+
+microsoft_graph_homepage:
+    path:     /home
+    defaults: { _controller: MicrosoftGraphBundle:Default:index }

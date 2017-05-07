@@ -1,0 +1,7 @@
+{
+        "name": "Mbdax/MicrosoftGraph",
+        "require": {
+            "php": ">=5.3.0",
+            "microsoft/microsoft-graph": "0.1.*"
+        }
+}
