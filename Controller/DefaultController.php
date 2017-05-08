@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Mbdax\MicrosoftGraphBundle\DependencyInjection\OAuth;
+
 
 class DefaultController extends Controller
 {
@@ -48,18 +48,20 @@ class DefaultController extends Controller
         // ** if you want to *authenticate* the user, then
         // leave this method blank and create a Guard authenticator
         // (read below)
-        $client=$this->get('microsoft_graph.client');
-            
-        dump($client->fetchUser());
         
-        die();
+     
         try {
             // the exact class depends on which provider you're using
-            /** @var \League\OAuth2\Client\Provider\FacebookUser $user */
-           // $user = $client->fetchUser();
 
+            /** @var Mbdax\MicrosoftGraphBundle\DependencyInjection\MicrosoftGraphClient */
+            $client=$this->get('microsoft_graph.client');
+            /**
+             * @var \Mbdax\MicrosoftGraphBundle\DependencyInjection\MicrosoftGraphResourceOwner
+             */
+            $user= $client->fetchUser();
+        
             // do something with all this new power!
-            //$user->getFirstName();
+            return new JsonResponse($user->toArray());
             // ...
         } catch (IdentityProviderException $e) {
             // something went wrong!

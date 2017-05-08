@@ -28,6 +28,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('redirect_uri')->end()
                         ->scalarNode('time_zone')->end()
                         ->scalarNode('version')->end()
+                        ->scalarNode('entity_manager')->end()
                         ->scalarNode('stateless')->end()
                         ->variableNode('scopes')->end()
                 ->end()
