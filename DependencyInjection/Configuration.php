@@ -22,16 +22,16 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('microsoft_graph');
         $rootNode
             ->children()
-                ->arrayNode('api')->addDefaultsIfNotSet()
-                    ->children()
+                
                         ->scalarNode('client_id')->end()
                         ->scalarNode('client_secret')->end()
                         ->scalarNode('redirect_uri')->end()
                         ->scalarNode('time_zone')->end()
                         ->scalarNode('version')->end()
-                    ->end()
+                        ->scalarNode('stateless')->end()
+                        ->variableNode('scopes')->end()
                 ->end()
-                ->scalarNode('class_manager')
+                
             ->end()
         ;
         return $treeBuilder;

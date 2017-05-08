@@ -16,29 +16,20 @@ class MicrosoftGraphResourceOwner implements ResourceOwnerInterface
     protected $response;
 
 
-    /**
-     * Undocumented variable
-     *
-     * @var token
-     */
-     protected $token;
+   
 
     /**
      * Creates new resource owner.
      *
      * @param array  $response
      */
-    public function __construct(array $response = array(), AccessToken $token)
+    public function __construct(array $response, $resourceOwnerId)
     {
         $this->response = $response;
-        $this->token = $token;
+       
     }
-    /**
-     * Image url
-     *
-     * @var string
-     */
-    protected $imageurl;
+    
+
     /**
      * Get user id
      *
@@ -55,7 +46,7 @@ class MicrosoftGraphResourceOwner implements ResourceOwnerInterface
      */
     public function getEmail()
     {
-        return $this->response['emails']['preferred'] ?: null;
+        return $this->response['mail'] ?: null;
     }
     /**
      * Get user firstname
@@ -64,27 +55,9 @@ class MicrosoftGraphResourceOwner implements ResourceOwnerInterface
      */
     public function getFirstname()
     {
-        return $this->response['first_name'] ?: null;
+        return $this->response['givenName'] ?: null;
     }
-    /**
-     * Get user imageurl
-     *
-     * @return string|null
-     */
-    public function getImageurl()
-    {
-        return $this->imageurl;
-    }
-    /**
-     * Set user imageurl
-     *
-     * @return string|null
-     */
-    public function setImageurl($imageurl)
-    {
-        $this->imageurl = $imageurl;
-        return $this;
-    }
+    
     /**
      * Get user lastname
      *
@@ -92,7 +65,7 @@ class MicrosoftGraphResourceOwner implements ResourceOwnerInterface
      */
     public function getLastname()
     {
-        return $this->response['last_name'] ?: null;
+        return $this->response['surname'] ?: null;
     }
     /**
      * Get user name
@@ -103,22 +76,9 @@ class MicrosoftGraphResourceOwner implements ResourceOwnerInterface
     {
         return $this->response['name'] ?: null;
     }
-    /**
-     * Get user urls
-     *
-     * @return string|null
-     */
-    public function getUrls()
-    {
-        return isset($this->response['link']) ? $this->response['link'].'/cid-'.$this->getId() : null;
-    }
+    
 
 
-
-    public function  getToken(){
-
-        return $this->token;
-    }
     /**
      * Return all of the owner details available as an array.
      *

@@ -21,7 +21,10 @@ class MicrosoftGraphExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        //$container->setParameter( 'microsoft_graph', $config[ 'microsoft_graph' ]);
+       
+     
+        $container->setParameter( 'microsoft_graph', $config);
+       
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
