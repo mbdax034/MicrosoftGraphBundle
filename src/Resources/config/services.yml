@@ -1,4 +1,4 @@
 services:
     microsoft_graph.client:
         class: Mbdax\MicrosoftGraphBundle\DependencyInjection\MicrosoftGraphClient
-        arguments: [@request_stack, @service_container]
+        arguments: ['@request_stack', '@service_container']
