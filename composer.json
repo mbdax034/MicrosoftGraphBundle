@@ -14,10 +14,16 @@
 	     "version": "dev-master",
         "require": {
             "php": ">=5.3.0",
-            "microsoft/microsoft-graph": "0.1.*",
-                "Mbdax/MicrosoftGraphBundle": "0.1.0"
+            "microsoft/microsoft-graph": "0.1.*"
+                
         },
         "autoload": {
-        "psr-4": { "Mbdax\\MicrosoftGraph\\": "" }
+        "psr-4": { "Mbdax\\MicrosoftGraph\\": "" 
+        },
+        "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
     }
 }
