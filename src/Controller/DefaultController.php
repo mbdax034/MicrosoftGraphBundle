@@ -63,16 +63,14 @@ class DefaultController extends Controller
             //$user= $client->fetchUser();
             $token=$client->getAccessToken();
 
-            $session = $request->getSession();
+             $tokenStorage =$this->get("microsoft_graph.session_storage");
 
-            // store an attribute for reuse during a later user request
-            $session->set('microsoft_graph_accesstoken', 'bar');
-            $session->set('microsoft_graph_refreshtoken', 'bar');
-            $session->set('microsoft_graph_', 'bar');
-            
+             $tokenStorage->setToken($token);
+
             $graph = new Graph();
-            $graph->setAccessToken($token->getToken());
+            $graph->setAccessToken($tokenStorage->getToken()->getToken());
 
+           
             $startTime = new DateTime('today midnight');
             $startTime = $startTime->format('Y-m-d H:i:s');
             $endTime = new DateTime('tomorrow midnight');
@@ -80,9 +78,10 @@ class DefaultController extends Controller
 
             $events = $graph->createRequest("GET", "/me/calendarView?startDateTime=$startTime&endDateTime=$endTime")
                                ->setReturnType(Model\Event::class)
+                               ->addHeaders(["Prefer"=>'outlook.timezone="Romance Standard Time"'])
                                ->execute();
 
-            dump($events[0]->jsonSerialize());
+            dump($events[0]->getLastModifiedDateTime());
             die();
             // do something with all this new power!
             return new JsonResponse(["me"=>$user->getDisplayName()]);

@@ -21,13 +21,13 @@ You have to configure your api:
         client_id: "%client_id%"
         client_secret: "%client_secret%"
         redirect_uri: "name of your redirect route"
-        time_zone: "" your prefered timezone
-        version: "" version of API GRAPH: 1.0 or beta,  deafault 1.0
+        time_zone: "" # your prefered timezone default UTC
+        version: "" version of API GRAPH: #1.0 or beta,  deafault 1.0
         stateless: true # if false, the state will stored in session
         scopes:  # for more details https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes
             - openid
             - offline_access
-            - ...
+            #- ...
             
 ```
 

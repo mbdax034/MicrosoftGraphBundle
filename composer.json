@@ -11,7 +11,7 @@
     }],
     "version": "dev-master",
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.6.0",
         "guzzlehttp/guzzle": "6.2.*",
         "league/oauth2-client": "^2.2",
         "microsoft/microsoft-graph": "0.1.*"

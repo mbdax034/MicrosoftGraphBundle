@@ -2,3 +2,7 @@ services:
     microsoft_graph.client:
         class: Mbdax\MicrosoftGraphBundle\DependencyInjection\MicrosoftGraphClient
         arguments: ['@request_stack', '@service_container']
+
+    microsoft_graph.session_storage:
+        class: Mbdax\MicrosoftGraphBundle\Token\SessionStorage
+        arguments: ["@session"]

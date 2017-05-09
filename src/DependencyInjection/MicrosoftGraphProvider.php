@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @author Abdellah Rabh
+ * @email abderabh@mail.com
+ * @create date 2017-05-09 10:59:45
+ * @modify date 2017-05-09 10:59:45
+ * @desc [description]
+*/
+
 namespace Mbdax\MicrosoftGraphBundle\DependencyInjection;
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;

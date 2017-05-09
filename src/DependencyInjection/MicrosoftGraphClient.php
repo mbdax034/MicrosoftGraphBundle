@@ -1,12 +1,12 @@
 <?php
+/**
+ * @author Abdellah Rabh
+ * @email abderabh@mail.com
+ * @create date 2017-05-09 10:50:16
+ * @modify date 2017-05-09 10:50:16
+ * @desc [description]
+*/
 
-/*
- * OAuth2 Client Bundle
- * Copyright (c) KnpUniversity <http://knpuniversity.com/>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 
 namespace Mbdax\MicrosoftGraphBundle\DependencyInjection;
