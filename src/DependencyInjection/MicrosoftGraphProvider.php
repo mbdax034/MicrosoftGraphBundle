@@ -1,12 +1,12 @@
 <?php
 
 namespace Mbdax\MicrosoftGraphBundle\DependencyInjection;
-use \League\OAuth2\Client\Provider\GenericProvider;
-use \League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Provider\GenericProvider;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use Psr\Http\Message\ResponseInterface;
-use \Mbdax\MicrosoftGraphBundle\DependencyInjection\MicrosoftGraphResourceOwner as User;
+use Mbdax\MicrosoftGraphBundle\DependencyInjection\MicrosoftGraphResourceOwner as User;
 
 
 

@@ -6,8 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
-
+use Microsoft\Graph\Graph;
+use Microsoft\Graph\Model;
+use \DateTime;
 class DefaultController extends Controller
 {
      /**
@@ -58,10 +59,33 @@ class DefaultController extends Controller
             /**
              * @var \Mbdax\MicrosoftGraphBundle\DependencyInjection\MicrosoftGraphResourceOwner
              */
-            $user= $client->fetchUser();
-        
+            
+            //$user= $client->fetchUser();
+            $token=$client->getAccessToken();
+
+            $session = $request->getSession();
+
+            // store an attribute for reuse during a later user request
+            $session->set('microsoft_graph_accesstoken', 'bar');
+            $session->set('microsoft_graph_refreshtoken', 'bar');
+            $session->set('microsoft_graph_', 'bar');
+            
+            $graph = new Graph();
+            $graph->setAccessToken($token->getToken());
+
+            $startTime = new DateTime('today midnight');
+            $startTime = $startTime->format('Y-m-d H:i:s');
+            $endTime = new DateTime('tomorrow midnight');
+            $endTime = $endTime->format('Y-m-d H:i:s');
+
+            $events = $graph->createRequest("GET", "/me/calendarView?startDateTime=$startTime&endDateTime=$endTime")
+                               ->setReturnType(Model\Event::class)
+                               ->execute();
+
+            dump($events[0]->jsonSerialize());
+            die();
             // do something with all this new power!
-            return new JsonResponse($user->toArray());
+            return new JsonResponse(["me"=>$user->getDisplayName()]);
             // ...
         } catch (IdentityProviderException $e) {
             // something went wrong!

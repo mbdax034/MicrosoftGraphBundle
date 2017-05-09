@@ -5,21 +5,21 @@
     "keywords": ["Symfony2", "security", "encoder"],
     "homepage": "https://github.com/mbdax034/MicrosoftGraphBundle",
     "license": "MIT",
-   	"authors": [
-    		{
-    		    "name": "Abdellah Rabh",
-    		    "email": "abderabh@gmail.com"
-    		}
-	],
-	"version": "dev-master",
+    "authors": [{
+        "name": "Abdellah Rabh",
+        "email": "abderabh@gmail.com"
+    }],
+    "version": "dev-master",
     "require": {
         "php": ">=5.3.0",
+        "guzzlehttp/guzzle": "6.2.*",
+        "league/oauth2-client": "^2.2",
         "microsoft/microsoft-graph": "0.1.*"
-                
+
     },
     "autoload": {
-            "psr-4": {
-                 "Mbdax\\MicrosoftGraphBundle\\": "src/" 
-            }
+        "psr-4": {
+            "Mbdax\\MicrosoftGraphBundle\\": "src/"
+        }
     }
 }
