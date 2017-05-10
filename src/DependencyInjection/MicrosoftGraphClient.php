@@ -7,20 +7,23 @@
  * @desc [description]
 */
 
-
-
 namespace Mbdax\MicrosoftGraphBundle\DependencyInjection;
 
 
 use Mbdax\MicrosoftGraphBundle\DependencyInjection\MicrosoftGraphProvider;
-use League\OAuth2\Client\Token\AccessToken;
+use Mbdax\MicrosoftGraphBundle\Token\TokenStorageInterface;
+use Mbdax\MicrosoftGraphBundle\Exception\RedirectException;
+
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
+use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use \Exception;
+
+
 
 class MicrosoftGraphClient 
 {
@@ -44,6 +47,10 @@ class MicrosoftGraphClient
     private $isStateless = false;
 
     private $config;
+
+    private $router;
+
+    private  $storageManager;
     /**
      * OAuth2Client constructor.
      *
@@ -54,7 +61,8 @@ class MicrosoftGraphClient
     {
         $this->requestStack = $requestStack;
         $this->config = $container->getParameter('microsoft_graph');
-
+        $this->storageManager= $container->get( $this->config['storage_manager']);
+        $this->router= $container->get('router');
         $options=[
             'clientId'=> $this->config['client_id'],
             'clientSecret'=> $this->config['client_secret'],
@@ -65,12 +73,22 @@ class MicrosoftGraphClient
             
         ];
 
-      
+        
         $this->isStateless=$this->config['stateless'];
    
         
         $this->provider = new MicrosoftGraphProvider($options);
 
+    }
+
+
+    /**
+     *  Return the configuration of Microsoft Graph
+     *
+     * @return array
+     */
+    public function getConfig(){
+        return $this->config;
     }
     /**
      * Call this to avoid using and checking "state".
@@ -127,11 +145,26 @@ class MicrosoftGraphClient
         if (!$code) {
             throw new Exception('No "code" parameter was found (usually this is a query parameter)!');
         }
-        
-        return $this->provider->getAccessToken('authorization_code', [
+
+        $token = $this->provider->getAccessToken('authorization_code', [
             'code' => $code,
         ]);
+
+        $this->storageManager->setToken($token);
+      
+        return $token ;
     }
+
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function getstorageManager(){
+        return $this->storageManager;
+    }
+
     /**
      * Returns the "User" information (called a resource owner).
      *
@@ -167,6 +200,51 @@ class MicrosoftGraphClient
     {
         return $this->provider;
     }
+        
+    /**
+     *  If current token has expired 
+     *      i  refresh token
+     *  else return then curent token 
+     *
+     * @return AccessToken
+     */
+    public function getNewToken(){
+
+            /**
+             *@var AccessToken
+             */
+
+            try{
+
+                $oldToken= $this->storageManager->getToken();
+
+            
+
+                if ($oldToken->hasExpired()) {
+                    if($oldToken->getRefreshToken()==NUll){
+
+                            $this->redirect();
+                        
+                    }
+
+                    $newAccessToken = $provider->getAccessToken('refresh_token', [
+                        'refresh_token' => $oldToken->getRefreshToken()
+                    ]);
+
+                    $this->storageManager->setToken($newAccessToken);
+
+                return $newAccessToken;
+                }else{
+
+                    
+                    return $oldToken;
+                }
+            }catch(Exception $ex){
+
+                $this->redirect();
+            }
+    }
+
     /**
      * @return \Symfony\Component\HttpFoundation\Request
      */
@@ -189,5 +267,9 @@ class MicrosoftGraphClient
         }
         return $session;
     }
+
+
+
+
 
 }

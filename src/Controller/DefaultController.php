@@ -5,20 +5,27 @@ namespace Mbdax\MicrosoftGraphBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model;
 use \DateTime;
+
 class DefaultController extends Controller
 {
-     /**
-     * @Route("/graph", name="homepage")
-     */
+     
     public function indexAction(Request $request)
     {
-        
-        
-        
+            // get graph token storage
+            
+            $startTime = new DateTime("01-05-2017");
+            $endTime = new DateTime("29-05-2017");
+            $calendar= $this->get('microsoft_graph.calendar');
+            $events = $calendar->getEvents($startTime,$endTime); 
+            $event= $calendar->getEvent($events[0]->getId());
+            dump($events);
+            dump($event);
+            die();
 
         return $this->render('MicrosoftGraphBundle:Default:index.html.twig');
        
@@ -27,9 +34,7 @@ class DefaultController extends Controller
     
    
 
-    /**
-     * @Route("/graph/login", name="graph_login")
-     */
+    
     public function connectAction()
     {
         // will redirect to Office365!
@@ -41,7 +46,6 @@ class DefaultController extends Controller
      * After going to Office365, you're redirected back here
      * because this is the "graph_check" you configured
      * in config.yml
-     *@Route("/graph/check", name="graph_check")
      * 
      */
     public function connectCheckAction(Request $request)
@@ -67,25 +71,9 @@ class DefaultController extends Controller
 
              $tokenStorage->setToken($token);
 
-            $graph = new Graph();
-            $graph->setAccessToken($tokenStorage->getToken()->getToken());
-
-           
-            $startTime = new DateTime('today midnight');
-            $startTime = $startTime->format('Y-m-d H:i:s');
-            $endTime = new DateTime('tomorrow midnight');
-            $endTime = $endTime->format('Y-m-d H:i:s');
-
-            $events = $graph->createRequest("GET", "/me/calendarView?startDateTime=$startTime&endDateTime=$endTime")
-                               ->setReturnType(Model\Event::class)
-                               ->addHeaders(["Prefer"=>'outlook.timezone="Romance Standard Time"'])
-                               ->execute();
-
-            dump($events[0]->getLastModifiedDateTime());
-            die();
-            // do something with all this new power!
-            return new JsonResponse(["me"=>$user->getDisplayName()]);
-            // ...
+             $homePage= $this->getParameter("microsoft_graph")["home_page"];
+             return new RedirectResponse( $this->generateUrl($homePage));
+             
         } catch (IdentityProviderException $e) {
             // something went wrong!
             // probably you should return the reason to the user

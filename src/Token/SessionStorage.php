@@ -13,15 +13,20 @@ namespace Mbdax\MicrosoftGraphBundle\Token;
 use League\OAuth2\Client\Token\AccessToken;
 use Mbdax\MicrosoftGraphBundle\Token\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use InvalidArgumentException;
+use Mbdax\MicrosoftGraphBundle\Exception\RedirectException;
 
 class SessionStorage  implements TokenStorageInterface{
 
  
     private $session;
+    private $container;
 
-    public function __construct(Session $session){
+    public function __construct(Session $session, Container $container){
         $this->session= $session;
-
+        $this->container= $container;
     }
 
 
@@ -36,12 +41,16 @@ class SessionStorage  implements TokenStorageInterface{
     }
 
     public function getToken(){
-        
+
             $options['access_token']=$this->session->get('microsoft_graph_accesstoken');
             $options['refresh_token']=$this->session->get('microsoft_graph_refreshtoken');
             $options['expires']=$this->session->get('microsoft_graph_expires');
             $options['resource_owner_id']=$this->session->get('microsoft_graph_resourceOwnerId' );
+       
             
-            return new AccessToken($options);
+            
+            $token= new AccessToken($options);
+            return $token;
+            
     }
 }
