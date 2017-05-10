@@ -31,7 +31,6 @@ class Calendar{
 
 
         // Get an Event
-
         public function getEvent($idEvent){
             if($idEvent==NULL)
                 throw new Exception("Your idEvent is null");
@@ -39,11 +38,19 @@ class Calendar{
             return $this->request
                             ->createRequest('GET','/me/events/'.$idEvent,true)
                             ->execute();
-
         }
-
+        
         // Create an event
 
+        public function addEvent($data){
+            if($data==NULL)
+                throw new Exception("Your idEvent is null");
+
+            return $this->request
+                            ->createRequest('POST','/me/events',true)
+                            ->attachBody($data)
+                            ->execute();
+        }
 
         // Update an event
 
@@ -58,7 +65,7 @@ class Calendar{
          * @param DateTime $date
          * @return string 
          */
-        private function formatDate(DateTime $date){
+        public function formatDate(DateTime $date){
             return  $date->format('Y-m-d H:i:s');
 
         }

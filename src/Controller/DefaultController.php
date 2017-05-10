@@ -31,6 +31,42 @@ class DefaultController extends Controller
             dump($events);
             dump($event);
 
+        
+            // Creation of event
+
+            /*
+            $start= new DateTime("01-05-2017");
+            $end= new DateTime("02-05-2017");
+            
+            $newEvent= new Model\Event();
+            $newEvent->setSubject("Discuss the Calendar REST API");
+            $newEvent->setStart($start->format('Y-m-d\TH:i:s\Z'));
+            $newEvent->setStart("Romance Standard Time");
+            $newEvent->setEnd([
+                $end->format('Y-m-d\TH:i:s\Z'));
+            $newEvent->setBody("I think it will meet our requirements!");
+            */
+            
+            
+            $data = [
+                'Subject' => 'Discuss the Calendar REST API',
+                'Body' => [
+                    'ContentType' => 'HTML',
+                    'Content' => 'I think it will meet our requirements!',
+                ],
+                'Start' => [
+                    'DateTime' => '2017-05-03T10:00:00',
+                    'TimeZone' => 'Pacific Standard Time',
+                ],
+                'End' => [
+                    'DateTime' => '2017-05-03T11:00:00',
+                    'TimeZone' => 'Pacific Standard Time',
+                ],
+            ];
+            
+
+            $data= $calendar->addEvent( $data);
+            dump($data);
             $session->set('microsoft_graph_expires',null);
             die();
 
