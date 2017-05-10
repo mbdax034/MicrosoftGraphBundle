@@ -46,7 +46,7 @@ class MicrosoftGraphRequest{
             return $this->client->getNewToken()->getToken();
         }
 
-        public function setToken(){
+        public function setTokenGraph(){
              $this->graph->setAccessToken($this->getToken());
         }
 
@@ -61,7 +61,7 @@ class MicrosoftGraphRequest{
         
         public function createRequest($requestType, $endpoint,$preferedTimeZone=False){
             
-            $this->setToken();
+            $this->setTokenGraph();
 
             $request= $this->graph->createRequest($requestType, $endpoint);
             
@@ -74,7 +74,7 @@ class MicrosoftGraphRequest{
 
         public function createCollectionRequest($requestType, $endpoint,$preferedTimeZone=False){
 
-            $this->setToken();
+            $this->setTokenGraph();
 
             $createCollectionRequest= $this->graph->createCollectionRequest($requestType, $endpoint);
             

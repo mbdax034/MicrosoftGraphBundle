@@ -122,7 +122,7 @@ class MicrosoftGraphClient
                 $this->provider->getState()
             );
         }
-        return new RedirectResponse($url);
+        throw  new RedirectException(new RedirectResponse($url));
     }
     /**
      * Call this after the user is redirected back to get the access token.

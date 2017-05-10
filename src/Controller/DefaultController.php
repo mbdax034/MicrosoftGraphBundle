@@ -18,6 +18,11 @@ class DefaultController extends Controller
     {
             // get graph token storage
             
+            $client= $this->get('microsoft_graph.client');
+            $session= $this->get('session');
+            
+            dump($client->getNewToken());
+
             $startTime = new DateTime("01-05-2017");
             $endTime = new DateTime("29-05-2017");
             $calendar= $this->get('microsoft_graph.calendar');
@@ -25,6 +30,8 @@ class DefaultController extends Controller
             $event= $calendar->getEvent($events[0]->getId());
             dump($events);
             dump($event);
+
+            $session->set('microsoft_graph_expires',null);
             die();
 
         return $this->render('MicrosoftGraphBundle:Default:index.html.twig');
