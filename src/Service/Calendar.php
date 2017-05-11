@@ -40,21 +40,72 @@ class Calendar{
                             ->execute();
         }
         
-        // Create an event
+        /**
+         *  Create a DateTimeTimeZone for Windows
+         * With prefer time zone 
+         * @param DateTime $date
+         * @return Model\DateTimeTimeZone
+         */
+        public function getDateTimeTimeZone(DateTime $date){
+            return  $this->request->getDateTimeTimeZone($date);
+        }
 
-        public function addEvent($data){
-            if($data==NULL)
-                throw new Exception("Your idEvent is null");
-
+        
+        /**
+         * Create an event
+         * Undocumented function
+         *
+         * @param Model\Event $event
+         * @return void
+         */
+        public function addEvent(Model\Event $event){
+            if($event==NULL)
+                throw new Exception("Your event is null");
+            
+           
             return $this->request
                             ->createRequest('POST','/me/events',true)
-                            ->attachBody($data)
+                            ->attachBody($event->jsonSerialize())
+                            ->setReturnType(Model\Event::class)
                             ->execute();
         }
 
-        // Update an event
-
-        // Delete an event
+        /**
+         * Update an event
+         * Undocumented function
+         *
+         * @param Model\Event $event
+         * @return void
+         */
+        public function updateEvent(Model\Event $event){
+            if($event==NULL)
+                throw new Exception("Your event is null");
+            
+           
+            return $this->request
+                            ->createRequest('PATCH','/me/events/'.$event->getId(),true)
+                            ->attachBody($event->jsonSerialize())
+                            ->setReturnType(Model\Event::class)
+                            ->execute();
+        }
+        
+        
+        /**
+         * Delete an event
+         * Undocumented function
+         *
+         * @param Model\Event $event
+         * @return void
+         */
+        public function deleteEvent($id){
+            if($id==NULL)
+                throw new Exception(" id is null");
+            
+           
+            return $this->request
+                            ->createRequest('DELETE','/me/events/'.$id,true)
+                            ->execute();
+        }
 
         // Accept an event
 
@@ -65,8 +116,8 @@ class Calendar{
          * @param DateTime $date
          * @return string 
          */
-        public function formatDate(DateTime $date){
-            return  $date->format('Y-m-d H:i:s');
+        public function formatDate(DateTime $date){           
+            return   $this->request->getDateMicrosoftFormat($date);
 
         }
 
@@ -74,18 +125,9 @@ class Calendar{
 
             $start->setTime(0, 0, 0);
             $end->modify('+1 day');
-
             $startTime = $this->formatDate($start);
             $endTime = $this->formatDate($end);
-
             $route= "/me/calendarView?startDateTime=$startTime&endDateTime=$endTime";
-
-            // dump($startTime);
-            // dump($endTime);
-            // dump($route);
-           
-            
-
           $events=  $this->request->createCollectionRequest("GET", $route,true )
                 ->setReturnType(Model\Event::class)
                 ->execute();

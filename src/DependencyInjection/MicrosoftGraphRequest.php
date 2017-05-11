@@ -15,6 +15,7 @@ namespace Mbdax\MicrosoftGraphBundle\DependencyInjection;
 use Mbdax\MicrosoftGraphBundle\DependencyInjection\MicrosoftGraphClient;
 
 use Microsoft\Graph\Graph;
+use Microsoft\Graph\Model;
 
 class MicrosoftGraphRequest{
         /**
@@ -50,8 +51,12 @@ class MicrosoftGraphRequest{
              $this->graph->setAccessToken($this->getToken());
         }
 
+        public function getConfig($key){
+            return $this->client->getConfig()[$key];
+        }
+
         public function getPreferTimeZone(){
-                $prefer= 'outlook.timezone="'.$this->client->getConfig()['prefer_time_zone'].'"';
+                $prefer= 'outlook.timezone="'.$this->getConfig('prefer_time_zone').'"';
 
                 //dump($prefer);die();
 
@@ -83,5 +88,30 @@ class MicrosoftGraphRequest{
                 $createCollectionRequest->addHeaders(["Prefer"=>$this->getPreferTimeZone()]);
 
             return $createCollectionRequest;
+        }
+
+
+        /**
+         * Format 
+         * @param DateTime $date
+         * @return string 
+         */
+        public function getDateMicrosoftFormat(\DateTime $date){
+            return  $date->format('Y-m-d\TH:i:s');
+
+        }
+
+        /**
+         *  Create a DateTimeTimeZone for Windows
+         * With prefer time zone 
+         * @param DateTime $date
+         * @return Model\DateTimeTimeZone
+         */
+        public function getDateTimeTimeZone(\DateTime $date){
+            $dateTime= $this->getDateMicrosoftFormat($date);
+            $timezone= $this->getConfig('prefer_time_zone');
+
+            return  new Model\DateTimeTimeZone(['dateTime'=>$dateTime,'timezone'=>$timezone]);
+            
         }
 }

@@ -16,12 +16,18 @@ class DefaultController extends Controller
      
     public function indexAction(Request $request)
     {
-            // get graph token storage
-            
+            // get graph token storage 
             $client= $this->get('microsoft_graph.client');
             $session= $this->get('session');
             
-            dump($client->getNewToken());
+            try{
+
+               $client->getNewToken();
+
+            }catch(\Exception $ex){
+              // exeption if fault token parameter  or no refresh token
+               $client->redirect();
+            }
 
             $startTime = new DateTime("01-05-2017");
             $endTime = new DateTime("29-05-2017");
@@ -32,42 +38,38 @@ class DefaultController extends Controller
             dump($event);
 
         
-            // Creation of event
-
-            /*
-            $start= new DateTime("01-05-2017");
-            $end= new DateTime("02-05-2017");
             
             $newEvent= new Model\Event();
-            $newEvent->setSubject("Discuss the Calendar REST API");
-            $newEvent->setStart($start->format('Y-m-d\TH:i:s\Z'));
-            $newEvent->setStart("Romance Standard Time");
-            $newEvent->setEnd([
-                $end->format('Y-m-d\TH:i:s\Z'));
-            $newEvent->setBody("I think it will meet our requirements!");
-            */
+     
             
-            
-            $data = [
-                'Subject' => 'Discuss the Calendar REST API',
-                'Body' => [
-                    'ContentType' => 'HTML',
-                    'Content' => 'I think it will meet our requirements!',
-                ],
-                'Start' => [
-                    'DateTime' => '2017-05-03T10:00:00',
-                    'TimeZone' => 'Pacific Standard Time',
-                ],
-                'End' => [
-                    'DateTime' => '2017-05-03T11:00:00',
-                    'TimeZone' => 'Pacific Standard Time',
-                ],
-            ];
+              
+            $start= $calendar->getDateTimeTimeZone(new \DateTime('Now next minute'));
+            $end= $calendar->getDateTimeTimeZone(new \DateTime('Now next hour'));
+            dump($start);
+            dump($end);
+
+            $newEvent->setSubject('Controller Test Token');
+            $newEvent->setStart($start);
+            $newEvent->setEnd( $end);
+
+           
             
 
-            $data= $calendar->addEvent( $data);
-            dump($data);
-            $session->set('microsoft_graph_expires',null);
+            $event= $calendar->addEvent( $newEvent);
+
+            dump($event);
+            // Update an event 
+           
+            $updateEvent= new Model\Event();
+            $updateEvent->setId($event->getId());
+            $updateEvent->setSubject('Controller Test Token updated');
+
+            $event= $calendar->updateEvent( $updateEvent);
+           dump($event);
+            $response= $calendar->deleteEvent( $updateEvent->getID());
+           dump($response->getStatus()==204?"Event deleted":$response);
+
+            $session->set('microsoft_graph_expires',time()-51);
             die();
 
         return $this->render('MicrosoftGraphBundle:Default:index.html.twig');

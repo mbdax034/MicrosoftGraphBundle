@@ -214,7 +214,7 @@ class MicrosoftGraphClient
              *@var AccessToken
              */
 
-            try{
+            
 
                 $oldToken= $this->storageManager->getToken();
 
@@ -222,12 +222,12 @@ class MicrosoftGraphClient
 
                 if ($oldToken->hasExpired()) {
                     if($oldToken->getRefreshToken()==NUll){
-
-                            $this->redirect();
-                        
+                        dump("No refresh Token");
+                        die();
+                        throw new Exception("No refresh Token"); 
                     }
 
-                    $newAccessToken = $provider->getAccessToken('refresh_token', [
+                    $newAccessToken = $this->provider->getAccessToken('refresh_token', [
                         'refresh_token' => $oldToken->getRefreshToken()
                     ]);
 
@@ -239,10 +239,7 @@ class MicrosoftGraphClient
                     
                     return $oldToken;
                 }
-            }catch(Exception $ex){
-
-                $this->redirect();
-            }
+            
     }
 
     /**
