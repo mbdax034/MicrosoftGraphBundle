@@ -85,7 +85,6 @@ You have to configure your api:
      
 ```
 
-            dump($event);
  # Update an event
 ``` php
     $id='...'
@@ -100,7 +99,7 @@ You have to configure your api:
 ``` php
     $id='...'
     $response= $calendar->deleteEvent( $id);
-    dump($response->getStatus()==204?"Event deleted":$response);
+   $message= $response->getStatus()==204?"Event deleted":$response);
 
 ```
 

@@ -34,9 +34,7 @@ class DefaultController extends Controller
             $calendar= $this->get('microsoft_graph.calendar');
             $events = $calendar->getEvents($startTime,$endTime); 
             $event= $calendar->getEvent($events[0]->getId());
-            dump($events);
-            dump($event);
-
+            
         
             
             $newEvent= new Model\Event();
@@ -45,8 +43,7 @@ class DefaultController extends Controller
               
             $start= $calendar->getDateTimeTimeZone(new \DateTime('Now next minute'));
             $end= $calendar->getDateTimeTimeZone(new \DateTime('Now next hour'));
-            dump($start);
-            dump($end);
+           
 
             $newEvent->setSubject('Controller Test Token');
             $newEvent->setStart($start);
@@ -57,20 +54,18 @@ class DefaultController extends Controller
 
             $event= $calendar->addEvent( $newEvent);
 
-            dump($event);
-            // Update an event 
            
             $updateEvent= new Model\Event();
             $updateEvent->setId($event->getId());
             $updateEvent->setSubject('Controller Test Token updated');
 
             $event= $calendar->updateEvent( $updateEvent);
-           dump($event);
+          
             $response= $calendar->deleteEvent( $updateEvent->getID());
            dump($response->getStatus()==204?"Event deleted":$response);
 
             $session->set('microsoft_graph_expires',time()-51);
-            die();
+            
 
         return $this->render('MicrosoftGraphBundle:Default:index.html.twig');
        

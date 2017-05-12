@@ -47,7 +47,7 @@ class SessionStorage  implements TokenStorageInterface{
             $options['expires']=$this->session->get('microsoft_graph_expires');
             $options['resource_owner_id']=$this->session->get('microsoft_graph_resourceOwnerId' );
        
-            dump($options);
+         
             
             $token= new AccessToken($options);
             return $token;

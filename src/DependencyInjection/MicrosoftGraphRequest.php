@@ -58,8 +58,7 @@ class MicrosoftGraphRequest{
         public function getPreferTimeZone(){
                 $prefer= 'outlook.timezone="'.$this->getConfig('prefer_time_zone').'"';
 
-                //dump($prefer);die();
-
+               
                 return $prefer;
         }
 
