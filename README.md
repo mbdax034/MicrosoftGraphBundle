@@ -46,9 +46,9 @@ Go to :
 
     [Calendar examples]
     [SharePoint examples]
-***
-    [Calendar examples]: </docs/Calendar.md>
-    [SharePoint examples]: </docs/SharePoint.md>
+****
+ [Calendar example]: </docs/Calendar.md>
+ [SharePoint examples]: </docs/SharePoint.md>
 
 ### TODOS
 > Abstract Entities
