@@ -1,37 +1,10 @@
-# MicrosoftGraphBundle
-
-## Installation
-
-
-### Add MicrosoftGraphBundle to your project
-
-The recommended way to install the bundle is through Composer.
-
-```bash
-$ composer require 'mbdax/microsoftgraphbundle:dev-master'
-```
+# MicrosoftGraphBundle [Calendar examples]
 
 
 
-## Configuration 
 
-You have to configure your api:
-``` yml
-    microsoft_graph:
-        client_id: "%client_id%"
-        client_secret: "%client_secret%"
-        redirect_uri: "name of your redirect route"
-        time_zone: "" # your prefered timezone default UTC
-        version: "" version of API GRAPH: #1.0 or beta,  deafault 1.0
-        stateless: true # if false, the state will stored in session
-        scopes:  # for more details https://developer.microsoft.com/en-us/graph/docs/authorization/permission_scopes
-            - openid
-            - offline_access
-            #- ...
-            
-```
 
-# Get  token from Office 365 | API Graph
+# Get  token from Office 365 | API Graph  in your Action home_page 
 ``` php
     // Get client service 
     $client= $this->get('microsoft_graph.client');
@@ -50,7 +23,7 @@ You have to configure your api:
 ```
 
 
-# Example get events from outlook calendar
+# Get events from outlook calendar
 
 ``` php
 // Get calendar service 
