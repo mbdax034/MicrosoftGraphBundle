@@ -37,7 +37,29 @@ class Calendar{
 
             return $this->request
                             ->createRequest('GET','/me/events/'.$idEvent,true)
+                            ->setReturnType(Model\Event::class)
                             ->execute();
+        }
+        
+        /**
+         * Get event from start to end
+         *
+         * @param DateTime $start
+         * @param DateTime $end
+         * @return array Microsoft\Graph\Model\Event
+         */
+        public function getEvents(DateTime $start,DateTime $end){
+
+            $start->setTime(0, 0, 0);
+            $end->modify('+1 day');
+            $startTime = $this->formatDate($start);
+            $endTime = $this->formatDate($end);
+            $route= "/me/calendarView?startDateTime=$startTime&endDateTime=$endTime";
+          $events=  $this->request->createCollectionRequest("GET", $route,true )
+                ->setReturnType(Model\Event::class)
+                ->execute();
+            
+            return $events;
         }
         
         /**
@@ -121,19 +143,6 @@ class Calendar{
 
         }
 
-        public function getEvents(DateTime $start,DateTime $end){
-
-            $start->setTime(0, 0, 0);
-            $end->modify('+1 day');
-            $startTime = $this->formatDate($start);
-            $endTime = $this->formatDate($end);
-            $route= "/me/calendarView?startDateTime=$startTime&endDateTime=$endTime";
-          $events=  $this->request->createCollectionRequest("GET", $route,true )
-                ->setReturnType(Model\Event::class)
-                ->execute();
-            
-            return $events;
-        }
 
         // Decline 
 

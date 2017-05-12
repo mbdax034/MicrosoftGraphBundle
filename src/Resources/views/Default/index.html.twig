@@ -34,9 +34,12 @@
     <div class="ms-Grid-col ms-u-mdPush1 ms-u-md9 ms-u-lgPush1 ms-u-lg6">
         <div>
             <p class="ms-font-xl">Use the button below to connect to Microsoft Graph.</p>
+            {% if user %}
             <a class="ms-Button" href="/graph/login">
                 <span class="ms-Button-label">Connect to Microsoft Graph</span>
             </a>
+
+            {% endif %}
         </div>
     </div>
     </div>

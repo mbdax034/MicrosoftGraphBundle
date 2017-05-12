@@ -7,9 +7,6 @@ services:
         class: Mbdax\MicrosoftGraphBundle\DependencyInjection\MicrosoftGraphRequest
         arguments: ["@microsoft_graph.client"]
 
-    microsoft_graph.calendar:
-        class: Mbdax\MicrosoftGraphBundle\Service\Calendar
-        arguments: ["@microsoft_graph.request"]
 
     microsoft_graph.redirect_exception_listener:
         class: Mbdax\MicrosoftGraphBundle\EventListener\RedirectExceptionListener
@@ -21,3 +18,11 @@ services:
     microsoft_graph.session_storage:
         class: Mbdax\MicrosoftGraphBundle\Token\SessionStorage
         arguments: ["@session", '@service_container']
+    
+    microsoft_graph.calendar:
+        class: Mbdax\MicrosoftGraphBundle\Service\Calendar
+        arguments: ["@microsoft_graph.request"]
+    
+    microsoft_graph.sharepoint:
+        class: Mbdax\MicrosoftGraphBundle\Service\SharePoint
+        arguments: ["@microsoft_graph.request"]

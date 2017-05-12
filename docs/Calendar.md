@@ -26,16 +26,16 @@
 # Get events from outlook calendar
 
 ``` php
-// Get calendar service 
+    // Get calendar service 
     $calendar= $this->get('microsoft_graph.calendar');
             
-//Get a collection of Microsoft\Graph\Model\Event
+    //Get a collection of Microsoft\Graph\Model\Event
     $startTime = new DateTime("first day of this month");
     $endTime = new DateTime("first day of next month");
     
     $events = $calendar->getEvents($startTime,$endTime);
 
-//Get a  Microsoft\Graph\Model\Event
+    //Get a  Microsoft\Graph\Model\Event
     $id='...'
     $event= $calendar->getEvent($id);
      
@@ -45,7 +45,7 @@
  # Create an event
    ``` php    
             
-//  create Microsoft\Graph\Model\Event and set properties
+    //  create Microsoft\Graph\Model\Event and set properties
     $newEvent= new Microsoft\Graph\Model\Event();              
     $start= $calendar->getDateTimeTimeZone(new \DateTime('Now next minute'));
     $end= $calendar->getDateTimeTimeZone(new \DateTime('Now next hour'));
@@ -72,9 +72,13 @@
 ``` php
     $id='...'
     $response= $calendar->deleteEvent( $id);
-   $message= $response->getStatus()==204?"Event deleted":$response);
+    $message= $response->getStatus()==204?"Event deleted":$response);
 
 ```
+
+[index](../README.md)
+
+[SharePoint](/docs/SharePoint.md)
 
 
 ### TODOS
