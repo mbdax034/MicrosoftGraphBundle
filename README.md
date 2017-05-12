@@ -42,13 +42,14 @@ microsoft_graph:
 ```
 
 
+****
+ [Calendar examples]: </docs/Calendar.md>
+ [SharePoint examples]: </docs/SharePoint.md>
+ 
 Go to :
 
     [Calendar examples]
     [SharePoint examples]
-****
- [Calendar example]: </docs/Calendar.md>
- [SharePoint examples]: </docs/SharePoint.md>
 
 ### TODOS
 > Abstract Entities
