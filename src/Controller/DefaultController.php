@@ -26,54 +26,37 @@ class DefaultController extends Controller
 
                 $sharepoint= $this->get('microsoft_graph.sharepoint');
                 $cal= $this->get('microsoft_graph.calendar');
+                $drive_service= $this->get('microsoft_graph.drive');
         try{
 
-                dump($cal->getEvents(new DateTime("last month"), new DateTime("next month")));
-
+               
                 // get Root
                 $root= $sharepoint->getRoot();
 
                 dump("Root");
                 dump($root->jsonSerialize());
 
-                // get List of root (site)
+                dump("Root drive");
+                 $drive=$sharepoint->getRootDrive();
+                dump($drive);
+
+                dump("Root drive children");
+                $firstChild= $drive_service->getChildrenForDrive($drive->getId());
+
+                dump($firstChild);
+                
+                dump("Root drive children");
+                $itemChildren= $drive_service->getChildrenForDriveItem($drive->getId(),"01GS27KIR7FJ7BWI5GQ5B2FEFXH2DFLS3D");//idItem: PROJET
+
+                dump($itemChildren);
 
                 dump("List of root (site)");
                 $list =$sharepoint->getListsOfSite($root->getId());
-                dump($list->getBody());
+               // dump($list);
 
-                $documents=null;
-                foreach($list as $item){
+                
 
-                    if($item->getName()=='Documents')
-                    {
-                         $documents = $item;
-                         break;
-                    }
-                }
-
-
-                // get Document information 
-                dump("Document information ");
-                dump($documents->jsonSerialize());
-
-
-                // get subsites of root
-
-                dump("get subsites of root");
-                $subsites= $sharepoint->getSubsitesOfSite($root->getId());
-                dump($subsites->jsonSerialize());
-
-                // get Meta data
-                 dump(" Meta data");
-                $meta = $sharepoint->getMetaDataOfList($root->getId(),$documents->getId());
-                dump($meta->jsonSerialize());
-
-
-                // get items of documents
-                dump(" items of documents");
-                $items=$sharepoint->getItemsOfList($root->getId(),$documents->getId());
-
+                
         }catch(\Exception $ex){
             dump($ex);
         }

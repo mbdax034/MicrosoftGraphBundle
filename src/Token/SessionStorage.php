@@ -43,7 +43,7 @@ class SessionStorage  implements TokenStorageInterface{
     public function getToken(){
 
             $options['access_token']=$this->session->get('microsoft_graph_accesstoken');
-            $options['refresh_token']=$this->session->get('microsoft_graph_refreshtoken');
+$options['refresh_token']=$this->session->get('microsoft_graph_refreshtoken');
             $options['expires']=$this->session->get('microsoft_graph_expires');
             $options['resource_owner_id']=$this->session->get('microsoft_graph_resourceOwnerId' );
        

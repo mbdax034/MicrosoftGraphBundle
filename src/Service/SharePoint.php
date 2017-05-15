@@ -47,6 +47,22 @@ class SharePoint{
                             ->execute();
         }
 
+        /**
+         * 
+         *
+         * @return Model\Drive
+         */
+        public function getRootDrive(){
+            $route= '/sites/root/drive';
+           
+            //$this->request->setVersion('beta');
+            $drive=  $this->request->createCollectionRequest("GET", $route,true )
+                ->setReturnType(Model\Drive::class)
+                ->execute();
+            
+            return $drive;
+        }
+
 
         /**
          * Undocumented function
@@ -136,16 +152,18 @@ class SharePoint{
         public function getItemsOfList($siteId,$listId,$params=[]){
 
            
-            $route= '/sites/'.$siteId.'/lists/'.$listId.'/itemes';
+            $route= '/sites/'.$siteId.'/lists/'.$listId.'/items?expand=fields';
 
            
             $this->request->setVersion('beta');
           $items=  $this->request->createCollectionRequest("GET", $route,true )
-                ->setReturnType(Model\DriveItem::class)
+                ->setReturnType(Model\SharedDriveItem::class)
                 ->execute();
             
             return $items;
         }
+
+
 
         /**
          * Undocumented function
@@ -158,15 +176,15 @@ class SharePoint{
         public function newList($siteId,$listId,$params=[]){
 
            
-            $route= '/sites/'.$siteId.'/lists/'.$listId.'/itemes';
+            $route= '/sites/'.$siteId.'/lists/'.$listId.'/items';
 
            
             $this->request->setVersion('beta');
-          $events=  $this->request->createCollectionRequest("POST", $route,true )
+          $items=  $this->request->createCollectionRequest("POST", $route,true )
                 ->setReturnType(Model\DriveItem::class)
                 ->execute();
             
-            return $events;
+            return $items;
         }
 
 

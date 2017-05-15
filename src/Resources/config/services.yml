@@ -26,3 +26,7 @@ services:
     microsoft_graph.sharepoint:
         class: Mbdax\MicrosoftGraphBundle\Service\SharePoint
         arguments: ["@microsoft_graph.request"]
+
+    microsoft_graph.drive:
+        class: Mbdax\MicrosoftGraphBundle\Service\Drive
+        arguments: ["@microsoft_graph.request"]
