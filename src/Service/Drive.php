@@ -52,8 +52,8 @@ class Drive{
         function getChildrenForDriveItem($drive,$item){
 
             $route= '/drives/'.$drive.'/items/'.$item.'/children';
-
-           
+            //dump($route);
+            //die();
             $this->request->setVersion('beta');
           $items=  $this->request->createCollectionRequest("GET", $route,true )
                 ->setReturnType(Model\DriveItem::class)

@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Microsoft Graph Drive Explorer</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="stylesheet" href="{{ asset('bundles/microsoftgraph/jstree/themes/default/style.css') }}" />
+</head>
+
+<body class="ms-Grid">
+
+
+<div id="explorer_tree" >
+
+</div>
+
+
+<script src="{{ asset('bundles/microsoftgraph/jquery/jquery.js') }}"></script>
+<script src="{{ asset('bundles/microsoftgraph/jstree/jstree.js') }}"></script>
+<script src="{{ asset('bundles/microsoftgraph/jstree/jstree.types.js') }}"></script>
+
+<script>
+
+    $(function () { $('#explorer_tree').jstree({
+  "core" : {
+    "animation" : 0,
+    "check_callback" : true,
+    "themes" : { "stripes" : true },
+    'data' : {
+      'url' : function (node) {
+        
+        url=node.id === '#' ? 'drive/data' : 'drive/data?id='+node.id;
+        console.log(url);
+        return url;
+      }
+    }
+  },
+  "types" : {
+      "file" : {
+        "icon" : "fa fa-file"
+      },
+      "pptx" : {
+        "icon" : "fa fa-file-powerpoint-o"
+      },
+      "docx" : {
+        "icon" : "fa fa-file-word-o"
+      },
+      
+  },
+  
+  "plugins" : [
+    "contextmenu", "dnd", "search",
+    "state", "types", "wholerow"
+  ]
+}); 
+
+
+$('#explorer_tree').on('select_node.jstree', function (event,selected) {
+        let node=selected.node;
+        if(['pptx','docx'].indexOf(node.type)>=0)
+        {
+            console.log(node.original);
+            var webUrl=node.original.webUrl;
+            window.open(webUrl);
+        }
+  })
+  // create the instance
+  .jstree();
+
+
+});
+
+</script>
+</body>
+
+</html>

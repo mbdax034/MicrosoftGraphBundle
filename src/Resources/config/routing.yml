@@ -9,3 +9,11 @@ microsoft_graph_check:
 microsoft_graph_homepage:
     path:     /home
     defaults: { _controller: MicrosoftGraphBundle:Default:index }
+
+microsoft_graph_drive_index:
+    path:     /drive
+    defaults: { _controller: MicrosoftGraphBundle:Drive:index }
+
+microsoft_graph_drive_data:
+    path:     /drive/data
+    defaults: { _controller: MicrosoftGraphBundle:Drive:data }
